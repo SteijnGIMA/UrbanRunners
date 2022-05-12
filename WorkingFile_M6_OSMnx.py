@@ -1,5 +1,4 @@
 #Import the packages 
-
 import networkx as nx # networkx package 
 import osmnx as ox 
 import pandas as pd #Base package for data analysis and manipulation 
@@ -106,8 +105,9 @@ tags = {"amenity=drinking_water":True}
 gdf = ox.geometries_from_place(G, tags)
 gdf.shape
 
-watertap_amenities = ox.geometries_from_place(G, tags={"amenity": "drinking_water"})
-watertap_amenities.explore()
+# other option
+#watertap_amenities = ox.geometries_from_place(G, tags={"amenity": "drinking_water"})
+#watertap_amenities.explore()
 
 # Now convert it to a shapefile with OGR    [Copied from one post in Stake Exchange] 
 driver = ogr.GetDriverByName('ESRI Shapefile') #for ESRI shapefile 
