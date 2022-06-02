@@ -18,7 +18,7 @@ def rand_sourcegoal_generator(G, limit):
     #max_lat = bbox.bounds[3]
     sources = []
     goals = []
-    for n in limit:
+    for n in range(limit):
         X1 = random.uniform(bbox.bounds[0], bbox.bounds[2])
         Y1 = random.uniform(bbox.bounds[1], bbox.bounds[3])
         X2 = random.uniform(bbox.bounds[0], bbox.bounds[2])
