@@ -1,5 +1,4 @@
 #Import the packages 
-
 import networkx as nx # networkx package 
 import osmnx as ox 
 import pandas as pd #Base package for data analysis and manipulation 
@@ -37,13 +36,23 @@ origLngPoint = 4.891368
 destLatPoint = 52.3471806
 destLngPoint = 4.9185823
 
-# Set the city name
-name = 'Amsterdam'
+# Set the city name list
+g_namen = ['Amsterdam', 'Rotterdam', "'s-Gravenhage", "Utrecht"]
 
-#Download and plot City
-place = ox.graph_from_place(name,retain_all=True, network_type='walk')
-G = ox.project_graph(place, to_crs='epsg:28992')
-fig, ax = ox.plot_graph(G, node_size=0)
+#Get the city areas using gemeentegrenzen of CBS Wijk- en Buurtkaart
+gemeente_grenzen = gpd.read_file(r"C:\Users\danny\Documents\persoonlijk\GIMA\modules\module 6\data\boundaries\CBS_gemeenten2020_v2.geojson")
+gemeente_grenzen.drop(gemeente_grenzen[gemeente_grenzen.water =="JA"].index, inplace=True)
+gemeente_grenzen.set_index('gemeentenaam', inplace=True)
+project_gemeenten = gemeente_grenzen.loc[g_namen]
+project_gemeenten.to_crs("EPSG:4326", inplace=True)
+
+#Download city network graphs
+for gemeente in g_namen:
+    globals()[f"{gemeente}_polygon"] = project_gemeenten.loc[gemeente].geometry.convex_hull
+    globals()[f"{gemeente}_network"] = ox.graph_from_polygon(globals()[f"{gemeente}_polygon"], network_type="walk")
+
+##G = ox.project_graph(place, to_crs='epsg:28992')
+##fig, ax = ox.plot_graph(G, node_size=0)
 
 #Find area of network
 G_proj = ox.project_graph(G) 
