@@ -12,10 +12,6 @@ def rand_sourcegoal_generator(G, limit):
     """
     nodes = ox.graph_to_gdfs(G, nodes=True, edges=False)
     bbox = nodes.unary_union.envelope
-    #min_lon = bbox.bounds[0]
-    #min_lat = bbox.bounds[1]
-    #max_lon = bbox.bounds[2]
-    #max_lat = bbox.bounds[3]
     sources = []
     goals = []
     for n in range(limit):
@@ -27,3 +23,19 @@ def rand_sourcegoal_generator(G, limit):
         goals.append(ox.distance.nearest_nodes(G, X2, Y2))
 
     return sources, goals
+
+def get_random_point_in_polygon(poly):
+    """
+    function to generate random point within a polygon.
+    
+    Parameters:
+    poly (shapely.Polygon or shapely.MultiPolygon) - input polygon
+
+    returns:
+    p (shapely.Point) - random point that is within input polygon
+    """
+     minx, miny, maxx, maxy = poly.bounds
+     while True:
+         p = shapely.geometry.Point(random.uniform(minx, maxx), random.uniform(miny, maxy))
+         if poly.contains(p):
+             return p
