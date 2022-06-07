@@ -36,15 +36,20 @@ origLngPoint = 4.891368
 destLatPoint = 52.3471806
 destLngPoint = 4.9185823
 
-# Set the city name list
-g_namen = ['Amsterdam', 'Rotterdam', "'s-Gravenhage", "Utrecht"]
+#set the city names
+g_namen = ['Amsterdam', 'Rotterdam', "Den_Haag", "Utrecht"]
 
-#Get the city areas using gemeentegrenzen of CBS Wijk- en Buurtkaart
-gemeente_grenzen = gpd.read_file(r"C:\Users\danny\Documents\persoonlijk\GIMA\modules\module 6\data\boundaries\CBS_gemeenten2020_v2.geojson")
-gemeente_grenzen.drop(gemeente_grenzen[gemeente_grenzen.water =="JA"].index, inplace=True)
-gemeente_grenzen.set_index('gemeentenaam', inplace=True)
-project_gemeenten = gemeente_grenzen.loc[g_namen]
+#download city geometries from file
+project_gemeenten = gpd.read_file(r"C:\Users\danny\Documents\persoonlijk\GIMA\modules\module 6\data\boundaries\UrbanRunner_Areas.geojson")
+
+#set index to gemeentenaam column
+project_gemeenten.set_index('gemeentenaam', inplace=True)
+
+#project to WGS84
 project_gemeenten.to_crs("EPSG:4326", inplace=True)
+
+#set additional geometry column of convex hull
+project_gemeenten["convexhull"] = project_gemeenten.convex_hull
 
 #Download city network graphs
 for gemeente in g_namen:
