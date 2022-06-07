@@ -40,7 +40,7 @@ destLngPoint = 4.9185823
 g_namen = ['Amsterdam', 'Rotterdam', "Den_Haag", "Utrecht"]
 
 #download city geometries from file
-project_gemeenten = gpd.read_file(r"C:\Users\danny\Documents\persoonlijk\GIMA\modules\module 6\data\boundaries\UrbanRunner_Areas.geojson")
+project_gemeenten = gpd.read_file(r"data\UrbanRunner_Areas.geojson")
 
 #set index to gemeentenaam column
 project_gemeenten.set_index('gemeentenaam', inplace=True)
