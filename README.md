@@ -7,4 +7,5 @@ The network notebook contains the code to download the network using OSMnx and t
 ## route algorithm notebook
 The Route algorithm notebook contains the code for running the routing algorithm.
 
-## visualization of 
+## vizualisation of Urban Runner routes
+The R code contains the vizualisation of the resulting routes using the ggplot library.
